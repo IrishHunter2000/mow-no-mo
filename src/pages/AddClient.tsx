@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import Client from "../components/Client";
+import ScheduleItem from "../components/Client";
 import { useData } from "../context/DataContext";
 import { Search } from "lucide-react";
 
-export default function Schedule() {
+export default function AddClient() {
     const { schedule } = useData();
+    const [selectedClient, setSelectedClient] = useState(null);
+    const [formData, setFormData] = useState(null);
     const [search, setSearch] = useState("");
     const [debouncedSearch, setDebouncedSearch] = useState("");
 
@@ -39,13 +41,20 @@ export default function Schedule() {
                     className="w-full pl-10 pr-4 py-2 rounded bg-neutral-800 text-white border border-neutral-700 focus:outline-none focus:border-blue-500"
                 />
             </div>
+
             {/* Schedule List */}
             {!filteredSchedule?.length
                 ? <p>No clients found.</p>
                 : <div className="w-full flex flex-col justify-center gap-4">
                     {filteredSchedule.map((client, idx) => (
-                        <div key={idx}>
-                            <Client client={client} />
+                        <div
+                            key={idx}
+                            onClick={() => {
+                                setSelectedClient(client);
+                                setFormData(client); // clone for editing
+                            }}
+                        >
+                            <ScheduleItem client={client} />
                         </div>
                     ))}
                 </div>

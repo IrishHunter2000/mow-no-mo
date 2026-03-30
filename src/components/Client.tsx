@@ -2,9 +2,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import UpdateClientModal from "./UpdateClientModal";
 
-export default function ScheduleItem({client}: {client: any}) {
+export default function Client({client}: {client: any}) {
     const [open, setOpen] = useState(false);
+    const [updateModal, setUpdateModal] = useState(false);
 
 	return (
         <div className="w-full bg-black text-white">
@@ -45,9 +47,19 @@ export default function ScheduleItem({client}: {client: any}) {
                         <div>Frequency: {client.frequency}</div>
                         <div>Price: {client.price}</div>
                         <div>Notes: {client.notes}</div>
+                        <button
+                            onClick={() => { setUpdateModal(true)}}
+                            className="mt-3 px-2! py-1! bg-green-500! text-black rounded"
+                        >
+                            Update
+                        </button>
                     </motion.div>
                 )}
             </AnimatePresence>
+            
+            {updateModal && (
+                <UpdateClientModal client={client} setModal={setUpdateModal} />
+            )}
         </div>
 	)
 }
